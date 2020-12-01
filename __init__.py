@@ -6,6 +6,7 @@ import re
 import json 
 import requests 
 import urllib.request 
+import math
 
 
 def pihole_api(query):
@@ -91,8 +92,9 @@ class PiholeAssistant(MycroftSkill):
     @intent_handler('assistant.pihole.ads_blocked_today.intent')
     def handle_assistant_pihole_ads_blocked_today(self, message):
         
-        output = pihole_api("ads_blocked_today")
-        output['ads_percentage_today'] = float(round(output['ads_percentage_today'] ,1))
+        output = pihole_api("ads_percentage_today")
+        
+        output = round(float(output),1)
         self.speak_dialog('assistant.pihole.ads_blocked_today',{'number':output})
 
     #Pihole Stats
@@ -100,6 +102,9 @@ class PiholeAssistant(MycroftSkill):
     def handle_assistant_pihole_stats(self, message):
         
         output = pihole_api("all_stats")
+        output['ads_percentage_today'] = round(float( output['ads_percentage_today'] ),1)
+        
+
         
         self.speak_dialog('assistant.pihole.all_stats',{
 
