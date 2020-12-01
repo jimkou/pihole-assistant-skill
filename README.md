@@ -2,23 +2,24 @@
 Control your pihole with your voice
 
 ## About
-With pihole assistant you can control many pihole commands with your voicstats
+With pihole assistant you can control many pihole commands. 
+Just use the word "Advertisements" or "Advertisement" and then the desired command as listed below:
 
 ## Examples
-* "Pihole blocked domains"
-* "Pihole dns queries today"
-* "Pihole ads blocked today"
-* "Pihole disable"
-* "Pihole enable"
-* "Pihole restart dns"
-* "Pihole update"
-* "Pihole update gravity"
-* "Pihole status"
-* "Pihole uninstall"
-* "Pihole debug"
-* "Pihole flush"
-* "Pihole reconfigure"
-* "Pihole arpflush"
+* advertisements enable (pihole enable)
+* advertisements disable (pihole disable)
+* advertisements restart dns (pihole restart dns)
+* advertisements status (pihole status)
+* advertisements flush   (pihole flush)     
+* advertisements stats or statistics (returns some pihole stats)
+
+## Requirements
+Mycroft-core and Pihole..
+Python3
+#Standard python3 libraries
+json lib
+requests
+
 
 ## Credits
 Kourlos Dimitris
