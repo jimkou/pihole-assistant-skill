@@ -12,14 +12,14 @@ Just use the word "Advertisements" or "Advertisement" and then the desired comma
 * advertisements status (pihole status)
 * advertisements flush   (pihole flush)     
 * advertisements stats or statistics (returns some pihole stats)
-
+* advertisements update gravity (pihole -g)
 ## Requirements
-Mycroft-core and Pihole..
-Python3
-#Standard python3 libraries
-json lib
-requests
-
+* Mycroft-core and Pihole.
+* Python3.
+#### Standard python3 libraries
+* json.
+* requests.
+* num2word.
 
 ## Credits
 Kourlos Dimitris
