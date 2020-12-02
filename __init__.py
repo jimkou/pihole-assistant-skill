@@ -7,6 +7,7 @@ import json
 import requests 
 import urllib.request 
 import math
+from num2words import num2words
 
 
 def pihole_api(query):
@@ -14,17 +15,17 @@ def pihole_api(query):
     source = urllib.request.urlopen(url).read() 
     json_raw = json.loads(source)
     data_dict = {
-        "domains_being_blocked" : str(json_raw['domains_being_blocked']),
-        "dns_queries_today" : str(json_raw['dns_queries_today']),
-        "ads_blocked_today" : str(json_raw['ads_blocked_today']),
+        "domains_being_blocked" : num2words(json_raw['domains_being_blocked']),
+        "dns_queries_today" : num2words(json_raw['dns_queries_today']),
+        "ads_blocked_today" : num2words(json_raw['ads_blocked_today']),
         "ads_percentage_today" : str(json_raw['ads_percentage_today']),
-        "unique_domains" : str(json_raw['unique_domains']),
-        "queries_forwarded" : str(json_raw['queries_forwarded']),
-        "queries_cached" : str(json_raw['queries_cached']),
+        "unique_domains" : num2words(json_raw['unique_domains']),
+        "queries_forwarded" : num2words(json_raw['queries_forwarded']),
+        "queries_cached" : num2words(json_raw['queries_cached']),
         "clients_ever_seen" : str(json_raw['clients_ever_seen']),
         "unique_clients" : str(json_raw['unique_clients']),
-        "dns_queries_all_types" : str(json_raw['dns_queries_all_types']),
-        "ads_blocked_today" : str(json_raw['ads_blocked_today']),
+        "dns_queries_all_types" : num2words(json_raw['dns_queries_all_types']),
+       
         "gravity_last_updated" : str(json_raw['ads_blocked_today'])
 
                     }
