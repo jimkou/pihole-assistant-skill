@@ -29,6 +29,7 @@ def pihole_api(query):
         "gravity_last_updated" : str(json_raw['ads_blocked_today'])
 
                     }
+    data_dict['ads_percentage_today'] = round(float(data_dict['ads_percentage_today']),1)
     if query is "all_stats":
         return data_dict
     else:
@@ -89,23 +90,25 @@ class PiholeAssistant(MycroftSkill):
         queries = str(re.findall("\d+", output)[0])
         self.speak_dialog('assistant.pihole.flush',{'number':queries})
     
-    #Ads blocked today
+    #Ads blocked today only
     @intent_handler('assistant.pihole.ads_blocked_today.intent')
     def handle_assistant_pihole_ads_blocked_today(self, message):
-        
         output = pihole_api("ads_percentage_today")
-        
-        output = round(float(output),1)
+
         self.speak_dialog('assistant.pihole.ads_blocked_today',{'number':output})
+
+    @intent_handler('assistant.pihole.update_gravity.intent')
+    def handle_assistant_pihole_update_gravity(self, message):
+        
+        self.speak_dialog('assistant.pihole.update_gravity')
+        subprocess.call('pihole -g',shell=True)
+        self.speak_dialog('assistant.pihole.update_gravity_finished')
+
 
     #Pihole Stats
     @intent_handler('assistant.pihole.all_stats.intent')
     def handle_assistant_pihole_stats(self, message):
-        
         output = pihole_api("all_stats")
-        output['ads_percentage_today'] = round(float( output['ads_percentage_today'] ),1)
-        
-
         
         self.speak_dialog('assistant.pihole.all_stats',{
 
