@@ -21,8 +21,19 @@ Just use the word "Advertisements" or "Advertisement" and then the desired comma
 * requests.
 * num2word.
 
-## Credits
-Kourlos Dimitris
+## Manual Installation
+```sh
+$ git clone https://github.com/jimkou/pihole-assistant-skill.git /opt/mycroft/skills/pihole-assistant-skill
+```
+### Important Note
+If Pihole is installed in another machine then:
+```sh
+$ nano /opt/mycroft/skills/pihole-assistant-skill/__init__.py
+```
+And edit the following fields:
+* remote_mode (Set to "YES")
+* pihole_ip (Set the IP of the machine that pihole is running on)
+* api_token (Set the api token that is located in "/etc/pihole/setupVars.conf")
 
 ## Category
 **Daily**
