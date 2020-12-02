@@ -9,6 +9,12 @@ import urllib.request
 import math
 from num2words import num2words
 
+#SET remote_mode to "YES" IF PIHOLE IS NOT RUNNING LOCALLY IN SAME MACHINE WITH MYCROFT 
+remote_mode = ""
+
+#CHANGE VALUES ACCORDING TO: (/etc/pihole/setupVars.conf) IF remote_mode = "YES"
+api_token = ""
+pihole_ip = ""
 
 def pihole_api(query):
     url = "http://localhost/admin/api.php?"
@@ -48,22 +54,50 @@ class PiholeAssistant(MycroftSkill):
     #DISABLE PIHOLE
     @intent_handler('assistant.pihole.disable.intent')
     def handle_assistant_pihole_disable(self, message):
-        output = subprocess.getoutput("pihole disable")
         already_disabled = ""
+        
+        #REMOTE MODE
+        if remote_mode == "YES":
+            
+            try:
 
-        if "already disabled" in output:
-            already_disabled = "already"
-        self.speak_dialog('assistant.pihole.disable',{"already_disabled" : already_disabled})
+                url = "http://"+pihole_ip+"/admin/api.php?disable&auth="+api_token
+                source = urllib.request.urlopen(url).read()
+                output = json.loads(source)
+            except:
+                self.speak_dialog('pihole.error',{"sentence" : "while trying to disable pie hole from API"})
+
+            if output['status'] == 'disabled':
+                self.speak_dialog('assistant.pihole.disable',{"already_disabled" : already_disabled})
+        #LOCAL MODE
+        else:
+            output = subprocess.getoutput("pihole disable")
+            if "already disabled" in output:
+                already_disabled = "already"
+            self.speak_dialog('assistant.pihole.disable',{"already_disabled" : already_disabled})
     
     #ENABLE PIHOLE
     @intent_handler('assistant.pihole.enable.intent')
     def handle_assistant_pihole_enable(self, message):
-        output = subprocess.getoutput("pihole enable")
         already_enabled = ""
 
-        if "already enabled" in output:
-            already_enabled = "already"
-        self.speak_dialog('assistant.pihole.enable',{"already_enabled" : already_enabled})
+        #REMOTE MODE
+        if remote_mode == "YES":
+            
+            try:
+                url = "http://"+pihole_ip+"/admin/api.php?enable&auth="+api_token
+                source = urllib.request.urlopen(url).read()
+                output = json.loads(source)
+            except:
+                self.speak_dialog('pihole.error',{"sentence" : "while trying to enable pie hole from API"})
+            if output['status'] == 'enabled':
+                self.speak_dialog('assistant.pihole.enable',{"already_enabled" : already_enabled})
+        #LOCAL MODE
+        else:
+            output = subprocess.getoutput("pihole enable")
+            if "already enabled" in output:
+                already_enabled = "already"
+            self.speak_dialog('assistant.pihole.enable',{"already_enabled" : already_enabled})
     
     #CHECK PIHOLE STATUS
     @intent_handler('assistant.pihole.status.intent')
